@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { People } from './../entity/People'
+import { Phone } from './../entity/Phone'
 
 /*
   Generated class for the UsersProvider provider.
@@ -12,16 +12,16 @@ import { People } from './../entity/People'
 */
 @Injectable()
 export class PeopleService {
-  private API_URL = 'https://schedule-server132.herokuapp.com/'
+  private API_URL = 'https://schedule-server132.herokuapp.com/phones/'
 
   constructor(public http: Http) { }
 
   getAll() {
     return new Promise((resolve, reject) => {
-      let url = this.API_URL + 'peoples/';
+      let url = this.API_URL;
       this.http.get(url)
         .subscribe((result: any) => {
-          resolve(result.json()._embedded.peoples as People[]);
+          resolve(result.json()._embedded.phones as Phone[]);
         },
         (error) => {
           reject(error.json());
