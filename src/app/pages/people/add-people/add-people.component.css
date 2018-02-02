@@ -1,0 +1,12 @@
+.btn-bottom {
+  position: absolute;
+  bottom: 0;
+}
+
+table {
+  text-align: center;
+}
+table tbody tr td,
+table tbody tr th{
+  vertical-align: middle;
+}

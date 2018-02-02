@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { RouterModule, Routes } from '@angular/router';
@@ -9,9 +10,12 @@ import { AgePipe } from './pipes/age.pipe'
 import { PeopleService } from './services/people.service';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ListPeoplesComponent } from './pages/people/list-peoples/list-peoples.component';
+import { AddPeopleComponent } from './pages/people/add-people/add-people.component';
 
 const appRoutes: Routes = [
-  { path: '', component: ListPeoplesComponent }
+  { path: '', component: ListPeoplesComponent },
+  { path: 'people/add', component: AddPeopleComponent },
+  { path: '**', component: NotFoundComponent}
 ];
 
 @NgModule({
@@ -19,11 +23,13 @@ const appRoutes: Routes = [
     AppComponent,
     AgePipe,
     NotFoundComponent,
-    ListPeoplesComponent
+    ListPeoplesComponent,
+    AddPeopleComponent
   ],
   imports: [
     AngularFontAwesomeModule,
     BrowserModule,
+    FormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
