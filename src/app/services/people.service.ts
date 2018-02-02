@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { People } from './../entity/People'
@@ -13,7 +13,11 @@ import { Phone } from '../entity/Phone';
 */
 @Injectable()
 export class PeopleService {
-  private API_URL = 'https://schedule-server132.herokuapp.com/peoples/'
+  private API_URL = 'https://schedule-server132.herokuapp.com/peoples/';
+  private headers: Headers = new Headers({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  });
 
   constructor(public http: Http) { }
 
@@ -21,7 +25,7 @@ export class PeopleService {
     return new Promise((resolve, reject) => {
       let url = this.API_URL;
       this.http.get(url)
-        .subscribe((result: any) => {
+        .subscribe((result: Response) => {
           let peoples: People[] = result.json()._embedded.peoples as People[];
           for (let i = 0; i < peoples.length; i++) {
             let phones: Array<Phone>;
@@ -45,8 +49,34 @@ export class PeopleService {
     return new Promise((resolve, reject) => {
       let url = `${this.API_URL}/${id}/telefones`;
       this.http.get(url)
-        .subscribe((result: any) => {
+        .subscribe((result: Response) => {
           resolve(result.json()._embedded.phones as Phone[]);
+        },
+        (error) => {
+          reject(error.json());
+        });
+    });
+  }
+
+  create(people: People): Promise<People> {
+    return new Promise((resolve, reject) => {
+      let url = this.API_URL;
+      this.http.post(url, JSON.stringify(people), { headers: this.headers })
+        .subscribe((result: Response) => {
+          resolve(result.json() as People);
+        },
+        (error) => {
+          reject(error.json());
+        });
+    });
+  }
+
+  delete(people: People): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = `${this.API_URL}/${people.id}`;
+      this.http.delete(url)
+        .subscribe((result: Response) => {
+          resolve(result);
         },
         (error) => {
           reject(error.json());

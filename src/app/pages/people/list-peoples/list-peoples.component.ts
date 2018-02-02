@@ -43,4 +43,22 @@ export class ListPeoplesComponent {
     )
   }
 
+  onDelete(people: People): void {
+    this.peopleService.delete(people)
+      .then((result: any) => {
+        const index1: number = this.peoples.indexOf(people);
+        if (index1 !== -1) {
+          this.peoples.splice(index1, 1);
+        }
+
+        const index2: number = this.filteredPeoples.indexOf(people);
+        if (index2 !== -1) {
+          this.filteredPeoples.splice(index2, 1);
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
+  }
+
 }

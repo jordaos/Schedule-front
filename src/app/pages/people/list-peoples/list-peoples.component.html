@@ -37,8 +37,9 @@
           <td>
             <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
               <fa name="edit"></fa> Editar</a>
-            <a href="#" class="btn btn-danger btn-sm" role="button" aria-pressed="true">
-              <fa name="trash"></fa> Deletar</a>
+            <button class="btn btn-danger btn-sm" role="button" aria-pressed="true" (click)="onDelete(person)">
+              <fa name="trash"></fa> Deletar
+            </button>
           </td>
         </tr>
         <tr *ngIf="isLoading">

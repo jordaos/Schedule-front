@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import { Phone } from './../entity/Phone'
@@ -11,17 +11,21 @@ import { Phone } from './../entity/Phone'
   and Angular DI.
 */
 @Injectable()
-export class PeopleService {
-  private API_URL = 'https://schedule-server132.herokuapp.com/phones/'
+export class PhoneService {
+  private API_URL = 'https://schedule-server132.herokuapp.com/phones/';
+  private headers: Headers = new Headers({
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*'
+  });
 
   constructor(public http: Http) { }
 
-  getAll() {
+  create(phone: Phone): Promise<Phone> {
     return new Promise((resolve, reject) => {
       let url = this.API_URL;
-      this.http.get(url)
-        .subscribe((result: any) => {
-          resolve(result.json()._embedded.phones as Phone[]);
+      this.http.post(url, JSON.stringify(phone), { headers: this.headers })
+        .subscribe((result: Response) => {
+          resolve(result.json() as Phone);
         },
         (error) => {
           reject(error.json());
