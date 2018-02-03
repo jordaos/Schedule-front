@@ -5,6 +5,12 @@
     </ol>
   </nav>
 
+  <a href="/people/add" class="btn btn-primary" role="button" aria-pressed="true">
+    Cadastrar uma pessoa
+  </a>
+  <br />
+  <br />
+
   <form>
     <div class="form-group">
       <label for="searchByNameOrCpf">Pesquisar por nome ou CPF:</label>
@@ -35,10 +41,13 @@
           <td>{{ person.dataNascimento | age }}</td>
           <td>{{ person.phones?.length || '0' }}</td>
           <td>
-            <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
-              <fa name="edit"></fa> Editar</a>
-            <button class="btn btn-danger btn-sm" role="button" aria-pressed="true" (click)="onDelete(person)">
-              <fa name="trash"></fa> Deletar
+            <button class="btn btn-success btn-sm" (click)="open(person)">
+              <fa name="eye"></fa>
+            </button>
+            <a [routerLink]="['/people/edit', person.id]" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
+              <fa name="edit"></fa></a>
+            <button class="btn btn-danger btn-sm" (click)="openDeleteModal(person)">
+              <fa name="trash"></fa>
             </button>
           </td>
         </tr>
@@ -64,6 +73,5 @@
       </tbody>
     </table>
   </div>
-
 </div>
 <!-- /container -->

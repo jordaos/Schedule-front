@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { People } from './../../../entity/People'
 import { PeopleService } from './../../../services/people.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import { ShowPeopleDialogComponent } from '../../dialog/show-people-dialog/show-people-dialog.component';
+import { DeletePeopleDialogComponent } from '../../dialog/delete-people-dialog/delete-people-dialog.component';
 
 @Component({
   selector: 'app-list-peoples',
@@ -16,7 +19,8 @@ export class ListPeoplesComponent {
   public haveError = false;
 
   constructor(
-    private peopleService: PeopleService
+    private peopleService: PeopleService,
+    private modalService: NgbModal
   ) {
     this.peopleService.getAll()
       .then((result: Array<People>) => {
@@ -43,6 +47,13 @@ export class ListPeoplesComponent {
     )
   }
 
+  openDeleteModal(people: People) {
+    const modalRef = this.modalService.open(DeletePeopleDialogComponent);
+    modalRef.componentInstance.people = people;
+
+    modalRef.componentInstance.action.subscribe(() => this.onDelete(people));
+  }
+
   onDelete(people: People): void {
     this.peopleService.delete(people)
       .then((result: any) => {
@@ -61,4 +72,8 @@ export class ListPeoplesComponent {
       });
   }
 
+  open(people: People) {
+    const modalRef = this.modalService.open(ShowPeopleDialogComponent);
+    modalRef.componentInstance.people = people;
+  }
 }

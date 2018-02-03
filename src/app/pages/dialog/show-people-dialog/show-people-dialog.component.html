@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{people.nome}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p><b>E-mail</b>: {{people.email}}!</p>
+  <p><b>CPF</b>: {{people.cpf}}!</p>
+  <p>Nasceu em <b>{{people.dataNascimento | date}}</b> e tem <b>{{ people.phones.length }}</b> telefones cadastados:</p>
+  <ul>
+    <li *ngFor="let phone of people.phones">
+      ({{ phone.ddd }}) {{ phone.numero }}
+    </li>
+  </ul>
+</div>

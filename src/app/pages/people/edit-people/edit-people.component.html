@@ -1,0 +1,88 @@
+<div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="/">Home</a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Adicionar</li>
+      </ol>
+    </nav>
+  
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputNome">Nome</label>
+          <input type="text" class="form-control" id="inputNome" placeholder="Ex.: Jordão"
+            [(ngModel)]="people.nome" name="nome" #nome="ngModel" minlength="6" required
+            [ngClass]="{'is-invalid': inputHaveError(nome)}">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputCpf">CPF</label>
+          <input type="text" class="form-control" [(ngModel)]="people.cpf" name="cpf" 
+            id="inputCpf" [textMask]="{mask: cpfMask}" placeholder="Ex.: 000.000.000-00" 
+            [ngClass]="{'is-invalid': inputHaveError(cpf, true)}" #cpf="ngModel">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputEmail">E-mail</label>
+          <input type="email" class="form-control" id="inputEmail" placeholder="Ex.: user@mail.com"
+            [(ngModel)]="people.email" name="email" #email="ngModel" minlength="8" required
+            [ngClass]="{'is-invalid': inputHaveError(email)}">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputData">Data de nascimento</label>
+          <input type="text" class="form-control" id="inputData" [textMask]="{mask: dateMask}"
+            placeholder="dd/MM/yyyy" [(ngModel)]="dateStr" name="dataNascimento"
+            #dataNascimento="ngModel" [ngClass]="{'is-invalid': inputHaveError(dataNascimento, true)}">
+        </div>
+      </div>
+      <hr />
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="inputDdd">DDD</label>
+          <input type="text" [(ngModel)]="phone.ddd" class="form-control" 
+            [ngClass]="{'is-invalid': inputHaveError(ddd)}" id="inputDdd" name="ddd" 
+            (keypress)="onlyNumber($event)" placeholder="Ex.: 85" maxlength="2" minlength="2" 
+            required #ddd="ngModel">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="inputTel">Telefone</label>
+          <input type="text" [(ngModel)]="phone.numero" class="form-control" id="inputTel" 
+            [ngClass]="{'is-invalid': inputHaveError(telefone, true)}" name="telefone" 
+            placeholder="Ex.: 99999-9999" required #telefone="ngModel" 
+            [textMask]="{mask: phoneMask}">
+        </div>
+        <div class="form-group col-md-1">
+          <input type="button" class="btn btn-secondary btn-bottom" (click)="addPhone()" 
+            [disabled]="!inputIsValid(ddd) || !inputIsValid(telefone, true)" value="Adicionar" />
+        </div>
+        <div class="col-md-12">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col" style="width: 8%">#</th>
+                  <th scope="col" style="width: 10%">DDD</th>
+                  <th scope="col">Telefone</th>
+                  <th scope="col" style="width: 10%">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let phone of phones; let i = index" [attr.data-index]="i">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>{{ phone.ddd }}</td>
+                  <td>{{ phone.numero }}</td>
+                  <td scope="row">
+                    <button class="btn btn-danger btn-sm" (click)="deletePhone(i)">
+                      <fa name="trash"></fa> Deletar
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary"
+      [disabled]="!inputIsValid(nome) || !inputIsValid(cpf, true) || !inputIsValid(email) || !inputIsValid(dataNascimento, true)">Savar</button>
+    </form>
+  </div>

@@ -45,6 +45,28 @@ export class PeopleService {
     });
   }
 
+  find(id: number) {
+    return new Promise((resolve, reject) => {
+      let url = `${this.API_URL}/${id}`;
+      this.http.get(url)
+        .subscribe((result: Response) => {
+          let people: People = result.json() as People;
+          let phones: Array<Phone>;
+          this.getPhones(people.id)
+            .then((result: Array<Phone>) => {
+              people.phones = result;
+            })
+            .catch((error: any) => {
+              console.log("error while loading phones: " + error);
+            });;
+          resolve(people);
+        },
+        (error) => {
+          reject(error.json());
+        });
+    });
+  }
+
   getPhones(id: number) {
     return new Promise((resolve, reject) => {
       let url = `${this.API_URL}/${id}/telefones`;
