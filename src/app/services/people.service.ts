@@ -91,6 +91,19 @@ export class PeopleService {
     });
   }
 
+  update(people: People): Promise<People> {
+    return new Promise((resolve, reject) => {
+      let url = `${this.API_URL}/${people.id}`;
+      this.http.put(url, JSON.stringify(people), { headers: this.headers })
+        .subscribe((result: Response) => {
+          resolve(result.json() as People);
+        },
+        (error) => {
+          reject(error.json());
+        });
+    });
+  }
+
   delete(people: People): Promise<any> {
     return new Promise((resolve, reject) => {
       let url = `${this.API_URL}/${people.id}`;

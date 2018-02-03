@@ -5,6 +5,8 @@ import { Phone } from '../../../entity/Phone';
 import { People } from '../../../entity/People';
 import { PeopleService } from '../../../services/people.service';
 import { PhoneService } from '../../../services/phone.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import { DeletePhoneDialogComponent } from '../../dialog/delete-phone-dialog/delete-phone-dialog.component';
 
 @Component({
   selector: 'app-edit-people',
@@ -27,6 +29,7 @@ export class EditPeopleComponent implements OnInit {
     private phoneService: PhoneService,
     private router: Router,
     private activedRoute: ActivatedRoute,
+    private modalService: NgbModal
   ) {
     this.phones = new Array<Phone>();
     this.phone = new Phone(0, '', '');
@@ -47,8 +50,32 @@ export class EditPeopleComponent implements OnInit {
     }
   }
 
-  deletePhone(index: number) {
-    this.phones.splice(index, 1);
+  deletePhone(phone: Phone, $event) {
+    if (phone.id) {
+      const modalRef = this.modalService.open(DeletePhoneDialogComponent);
+      modalRef.componentInstance.phone = phone;
+
+      modalRef.componentInstance.action.subscribe(() => this.onDelete(phone));
+    } else {
+      const index: number = this.phones.indexOf(phone);
+      if (index !== -1) {
+        this.phones.splice(index, 1);
+      }
+    }
+    $event.preventDefault();
+  }
+
+  onDelete(phone: Phone): void {
+    this.phoneService.delete(phone)
+      .then((result: any) => {
+        const index: number = this.phones.indexOf(phone);
+        if (index !== -1) {
+          this.phones.splice(index, 1);
+        }
+      })
+      .catch((error: any) => {
+        console.log(error);
+      });
   }
 
   inputHaveError(input: any, mask?: boolean): boolean {
@@ -76,14 +103,16 @@ export class EditPeopleComponent implements OnInit {
   onSubmit(): void {
     let dateArr = this.dateStr.split("/");
     this.people.dataNascimento = new Date(+dateArr[2], +dateArr[1], +dateArr[0]);
-    this.peopleService.create(this.people)
+    this.peopleService.update(this.people)
       .then((people: People) => {
         this.phones.forEach(phone => {
-          phone.people = people;
-          this.phoneService.create(phone)
-            .catch((err: Error) => {
-              console.log(err);
-            });
+          if (!phone.id) {
+            phone.people = people;
+            this.phoneService.create(phone)
+              .catch((err: Error) => {
+                console.log(err);
+              });
+          }
         });
         this.router.navigate(['/']);
       })

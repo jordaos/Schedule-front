@@ -17,6 +17,7 @@ import { AddPeopleComponent } from './pages/people/add-people/add-people.compone
 import { ShowPeopleDialogComponent } from './pages/dialog/show-people-dialog/show-people-dialog.component';
 import { DeletePeopleDialogComponent } from './pages/dialog/delete-people-dialog/delete-people-dialog.component';
 import { EditPeopleComponent } from './pages/people/edit-people/edit-people.component';
+import { DeletePhoneDialogComponent } from './pages/dialog/delete-phone-dialog/delete-phone-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: ListPeoplesComponent },
@@ -36,6 +37,7 @@ const appRoutes: Routes = [
     ShowPeopleDialogComponent,
     DeletePeopleDialogComponent,
     EditPeopleComponent,
+    DeletePhoneDialogComponent,
   ],
   imports: [
     AngularFontAwesomeModule,
@@ -52,7 +54,8 @@ const appRoutes: Routes = [
   ],
   entryComponents: [
     ShowPeopleDialogComponent,
-    DeletePeopleDialogComponent
+    DeletePeopleDialogComponent,
+    DeletePhoneDialogComponent
   ],
   bootstrap: [AppComponent]
 })

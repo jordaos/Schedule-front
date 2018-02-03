@@ -5,8 +5,8 @@
   </button>
 </div>
 <div class="modal-body">
-  <p><b>E-mail</b>: {{people.email}}!</p>
-  <p><b>CPF</b>: {{people.cpf}}!</p>
+  <p><b>E-mail</b>: {{people.email}}</p>
+  <p><b>CPF</b>: {{people.cpf}}</p>
   <p>Nasceu em <b>{{people.dataNascimento | date}}</b> e tem <b>{{ people.phones.length }}</b> telefones cadastados:</p>
   <ul>
     <li *ngFor="let phone of people.phones">

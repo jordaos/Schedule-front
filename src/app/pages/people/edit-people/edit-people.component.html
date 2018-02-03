@@ -1,14 +1,14 @@
-<div class="container">
+<div class="container" [ngClass]="{'loading': people.id === 0}">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item">
           <a href="/">Home</a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">Adicionar</li>
+        <li class="breadcrumb-item active" aria-current="page">Editar</li>
       </ol>
     </nav>
   
-    <form (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()" (keydown.enter)="$event.preventDefault()">
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="inputNome">Nome</label>
@@ -67,14 +67,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let phone of phones; let i = index" [attr.data-index]="i">
-                  <th scope="row">{{ phone.id }}</th>
+                <tr *ngFor="let phone of phones">
+                  <th scope="row">{{ phone.id ? phone.id : '#' }}</th>
                   <td>{{ phone.ddd }}</td>
                   <td>{{ phone.numero }}</td>
                   <td scope="row">
-                    <button class="btn btn-danger btn-sm" (click)="deletePhone(i)">
+                    <a href="#" class="btn btn-danger btn-sm" (click)="deletePhone(phone, $event)">
                       <fa name="trash"></fa> Deletar
-                    </button>
+                    </a>
                   </td>
                 </tr>
               </tbody>
@@ -82,7 +82,12 @@
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary"
-      [disabled]="!inputIsValid(nome) || !inputIsValid(cpf, true) || !inputIsValid(email) || !inputIsValid(dataNascimento, true)">Savar</button>
+      <input type="submit" class="btn btn-primary"
+        [disabled]="!inputIsValid(nome) || !inputIsValid(cpf, true) || !inputIsValid(email) || !inputIsValid(dataNascimento, true)" 
+        value="Savar" />
     </form>
+
+    <div class="load">
+      <div class="spinner"></div>
+    </div>
   </div>

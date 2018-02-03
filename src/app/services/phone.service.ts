@@ -32,4 +32,17 @@ export class PhoneService {
         });
     });
   }
+
+  delete(phone: Phone): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let url = `${this.API_URL}/${phone.id}`;
+      this.http.delete(url)
+        .subscribe((result: Response) => {
+          resolve(result);
+        },
+        (error) => {
+          reject(error.json());
+        });
+    });
+  }
 }
