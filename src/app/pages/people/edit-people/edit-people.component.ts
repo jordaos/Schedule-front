@@ -102,6 +102,7 @@ export class EditPeopleComponent implements OnInit {
             let arrDate = date.split("-");
             this.dateStr = `${arrDate[2]}/${arrDate[1]}/${arrDate[0]}`;
             this.people = people;
+            this.phones = people.phones;
           })
       }
     });

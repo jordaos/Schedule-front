@@ -28,7 +28,6 @@ export class PeopleService {
         .subscribe((result: Response) => {
           let peoples: People[] = result.json()._embedded.peoples as People[];
           for (let i = 0; i < peoples.length; i++) {
-            let phones: Array<Phone>;
             this.getPhones(peoples[i].id)
               .then((result: Array<Phone>) => {
                 peoples[i].phones = result;
@@ -51,15 +50,14 @@ export class PeopleService {
       this.http.get(url)
         .subscribe((result: Response) => {
           let people: People = result.json() as People;
-          let phones: Array<Phone>;
           this.getPhones(people.id)
             .then((result: Array<Phone>) => {
               people.phones = result;
+              resolve(people);
             })
             .catch((error: any) => {
               console.log("error while loading phones: " + error);
-            });;
-          resolve(people);
+            });
         },
         (error) => {
           reject(error.json());

@@ -68,7 +68,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let phone of phones; let i = index" [attr.data-index]="i">
-                  <th scope="row">{{ i + 1 }}</th>
+                  <th scope="row">{{ phone.id }}</th>
                   <td>{{ phone.ddd }}</td>
                   <td>{{ phone.numero }}</td>
                   <td scope="row">
